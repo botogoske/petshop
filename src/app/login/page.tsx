@@ -6,11 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginFormData } from "@/lib/validations";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FaPaw, FaEnvelope, FaLock } from "react-icons/fa";
+import { FaPaw } from "react-icons/fa";
 import { toast } from "sonner";
 
 export default function LoginPage() {
@@ -46,69 +45,97 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-600 rounded-2xl mb-4 shadow-lg">
-            <FaPaw className="text-white text-2xl" />
+    <div className="min-h-screen flex">
+      {/* Left panel — brand */}
+      <div
+        className="hidden lg:flex lg:w-[420px] xl:w-[480px] shrink-0 flex-col justify-between p-10"
+        style={{ background: "oklch(0.21 0.04 152)" }}
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-[--brand-400] flex items-center justify-center">
+            <FaPaw className="text-[oklch(0.145_0_0)] text-sm" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">PetShop Manager</h1>
-          <p className="text-gray-500 mt-1">Sistema de Gestão de Petshop</p>
+          <span className="font-semibold text-[oklch(0.92_0.02_152)] text-sm tracking-tight">
+            PetShop Manager
+          </span>
         </div>
 
-        <Card className="shadow-xl border-0">
-          <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-2xl font-bold text-center">Entrar</CardTitle>
-            <CardDescription className="text-center">
+        <div>
+          <p className="text-[oklch(0.92_0.02_152)] text-2xl font-semibold leading-snug max-w-xs">
+            Gestão completa para o seu petshop, em um só lugar.
+          </p>
+          <p className="mt-3 text-sm text-[oklch(0.92_0.02_152)/0.5] max-w-xs leading-relaxed">
+            Consultas, vacinas, banho &amp; tosa, produtos e muito mais — tudo centralizado.
+          </p>
+        </div>
+
+        <p className="text-[0.65rem] text-[oklch(0.92_0.02_152)/0.3] uppercase tracking-wider">
+          Sistema de Gestão de Petshop
+        </p>
+      </div>
+
+      {/* Right panel — form */}
+      <div className="flex-1 flex items-center justify-center bg-background p-6">
+        <div className="w-full max-w-sm">
+          {/* Mobile brand mark */}
+          <div className="flex items-center gap-2 mb-8 lg:hidden">
+            <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
+              <FaPaw className="text-primary-foreground text-xs" />
+            </div>
+            <span className="font-semibold text-foreground text-sm">PetShop Manager</span>
+          </div>
+
+          <div className="mb-7">
+            <h1 className="text-2xl font-semibold text-foreground tracking-tight">Entrar</h1>
+            <p className="text-sm text-muted-foreground mt-1">
               Acesse sua conta para continuar
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <div className="relative">
-                  <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="seu@email.com"
-                    className="pl-9"
-                    {...register("email")}
-                  />
-                </div>
-                {errors.email && (
-                  <p className="text-sm text-red-500">{errors.email.message}</p>
-                )}
-              </div>
+            </p>
+          </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="password">Senha</Label>
-                <div className="relative">
-                  <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="••••••••"
-                    className="pl-9"
-                    {...register("password")}
-                  />
-                </div>
-                {errors.password && (
-                  <p className="text-sm text-red-500">{errors.password.message}</p>
-                )}
-              </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="email" className="text-sm font-medium">
+                Email
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="seu@email.com"
+                autoComplete="email"
+                className="h-10"
+                {...register("email")}
+              />
+              {errors.email && (
+                <p className="text-xs text-destructive">{errors.email.message}</p>
+              )}
+            </div>
 
-              <Button
-                type="submit"
-                className="w-full bg-emerald-600 hover:bg-emerald-700"
-                disabled={loading}
-              >
-                {loading ? "Entrando..." : "Entrar"}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+            <div className="space-y-1.5">
+              <Label htmlFor="password" className="text-sm font-medium">
+                Senha
+              </Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                autoComplete="current-password"
+                className="h-10"
+                {...register("password")}
+              />
+              {errors.password && (
+                <p className="text-xs text-destructive">{errors.password.message}</p>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full h-10 mt-2 font-medium"
+              disabled={loading}
+            >
+              {loading ? "Entrando..." : "Entrar"}
+            </Button>
+          </form>
+        </div>
       </div>
     </div>
   );

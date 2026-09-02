@@ -32,18 +32,20 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
-      <div className="flex items-center gap-3 px-6 py-5 border-b border-gray-200">
-        <div className="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center">
-          <FaPaw className="text-white text-sm" />
+    <aside className="w-60 bg-[--sidebar] border-r border-[--sidebar-border] flex flex-col shrink-0">
+      {/* Brand */}
+      <div className="flex items-center gap-3 px-5 py-5 border-b border-[--sidebar-border]">
+        <div className="w-8 h-8 bg-[--sidebar-primary] rounded-lg flex items-center justify-center shrink-0 shadow-sm">
+          <FaPaw className="text-[--sidebar-primary-foreground] text-sm" />
         </div>
-        <div>
-          <p className="font-bold text-gray-900 text-sm">PetShop</p>
-          <p className="text-xs text-gray-500">Manager</p>
+        <div className="leading-tight">
+          <p className="font-semibold text-[--sidebar-foreground] text-sm tracking-tight">PetShop</p>
+          <p className="text-[0.68rem] text-[--sidebar-foreground]/50 uppercase tracking-wider">Manager</p>
         </div>
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      {/* Nav */}
+      <nav className="flex-1 px-2.5 py-3 space-y-0.5 overflow-y-auto">
         {navItems.map((item) => {
           const isActive =
             item.href === "/dashboard"
@@ -54,20 +56,30 @@ export default function Sidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-all duration-150",
                 isActive
-                  ? "bg-emerald-50 text-emerald-700"
-                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                  ? "bg-[--sidebar-accent] text-[--sidebar-accent-foreground]"
+                  : "text-[--sidebar-foreground]/60 hover:bg-[--sidebar-accent]/60 hover:text-[--sidebar-foreground]"
               )}
             >
               <item.icon
-                className={cn("text-base", isActive ? "text-emerald-600" : "text-gray-400")}
+                className={cn(
+                  "text-sm shrink-0 transition-colors duration-150",
+                  isActive ? "text-[--sidebar-primary]" : "text-[--sidebar-foreground]/40"
+                )}
               />
               {item.label}
             </Link>
           );
         })}
       </nav>
+
+      {/* Footer rule */}
+      <div className="px-4 py-3 border-t border-[--sidebar-border]">
+        <p className="text-[0.65rem] text-[--sidebar-foreground]/30 text-center tracking-wide uppercase">
+          v1.0
+        </p>
+      </div>
     </aside>
   );
 }
